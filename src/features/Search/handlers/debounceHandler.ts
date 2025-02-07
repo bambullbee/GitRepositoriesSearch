@@ -18,7 +18,7 @@ export default function debounce() {
         clearTimeout(lastCallTimer);
       }
       lastCallTimer = setTimeout(
-        () => store.dispatch(fetchRepositories(repoName)),
+        () => store.dispatch(fetchRepositories({ repoName, isNewPage: false })),
         1000
       );
     };
