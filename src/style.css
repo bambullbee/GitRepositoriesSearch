@@ -1,7 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body {
-  color: blue;
+/* REPOSITORY CARD */
+.repository-card {
+  width: 300px;
+  height: auto;
+  border: 2px solid black;
+  margin: 20px auto;
 }
