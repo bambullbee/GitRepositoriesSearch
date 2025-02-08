@@ -48,6 +48,10 @@ export function buildPlugins(options: BuildOptions): Configuration["plugins"] {
             from: path.resolve(paths.public, "locales"),
             to: path.resolve(paths.output, "locales"),
           },
+          {
+            from: path.resolve(paths.public, "fonts"),
+            to: path.resolve(paths.output, "fonts"),
+          },
         ],
       })
     );
