@@ -17,31 +17,53 @@ const observer = new IntersectionObserver((entries, observer) => {
   }
 });
 
+interface repositoryCardI extends repository {
+  className?: string;
+}
+
 const RepositoryCard = ({
   name,
   description,
   link,
   stargazers_count: stars,
   id,
-}: repository) => {
+  className,
+}: repositoryCardI) => {
   const cardHTMLELement = useRef(null);
   const [copyBtnText, setCopyBtnText] = useState("Копировать");
+  const height = useRef(null);
   useEffect(() => {
-    if (!(cardHTMLELement.current instanceof Element)) {
+    if (!(cardHTMLELement.current instanceof Element && id % 20 === 0)) {
       return undefined;
     }
     observer.observe(cardHTMLELement.current);
     return () => {
-      if (!(cardHTMLELement.current instanceof Element)) {
+      if (!(cardHTMLELement.current instanceof Element && id % 20 === 0)) {
         return undefined;
       }
       observer.unobserve(cardHTMLELement.current as Element);
     };
   }, []);
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    if (id <= 20) {
+      height.current = cardHTMLELement.current.offsetTop;
+      cardHTMLELement.current.style.transform = `translateY(-${cardHTMLELement.current.offsetTop}px) scale(0.6)`;
+      timer = setTimeout(() => {
+        cardHTMLELement.current.style.transition = "transform 1s";
+        cardHTMLELement.current.style.transform = `translateY(0px) scale(1)`;
+      }, 100);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, []);
   return (
     <div
-      className="repository-card"
-      ref={id % 20 === 0 ? cardHTMLELement : null}
+      className={`repository-card ${className ? className : ""}`}
+      ref={cardHTMLELement}
     >
       <h3 className="heading heading__repo-subheading">{name}</h3>
       <p className="repository-card__description">{description}</p>

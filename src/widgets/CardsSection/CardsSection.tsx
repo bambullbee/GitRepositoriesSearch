@@ -2,12 +2,14 @@ import { RepositoryCard } from "@/entities/RepositoryCard";
 import { useSelectorTs } from "@/shared";
 import React, { useEffect, useRef } from "react";
 import LoadingState from "./components/LoadingState";
+import SuccessfullState from "./components/SuccessfullState";
 
 const CardsSection = () => {
   const cards = useSelectorTs((state) => state.search.repositories);
   const loadingState = useSelectorTs((state) => state.search.state);
   return (
-    <div>
+    <main>
+      <SuccessfullState />
       {cards.map((el, ind) => {
         return (
           <>
@@ -26,7 +28,7 @@ const CardsSection = () => {
         state={loadingState.type}
         errorType={loadingState.errorType}
       />
-    </div>
+    </main>
   );
 };
 
