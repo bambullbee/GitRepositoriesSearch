@@ -1,1 +1,0 @@
-{"version":3,"file":"192.4e55203a64f9c6c2ec36.js","mappings":"gJAMA,QAJa,WACX,OAAOA,EAAAA,EAAAA,KAAA,MAAAC,SAAI,QACb,C","sources":["webpack://preset/./src/pages/Shop/Shop.tsx"],"sourcesContent":["import React from \"react\";\r\n\r\nconst Shop = () => {\r\n  return <h1>Shop</h1>;\r\n};\r\n\r\nexport default Shop;\r\n"],"names":["_jsx","children"],"sourceRoot":""}

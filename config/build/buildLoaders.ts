@@ -14,6 +14,10 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     test: /\.(png|jpg|jpeg|gif)$/i,
     type: "asset/resource",
   };
+  const fontLoader = {
+    test: /\.(woff|woff2|eot|ttf|otf)$/i,
+    type: "asset/resource",
+  };
 
   const cssLoaderWithModules = {
     loader: "css-loader",
@@ -67,5 +71,5 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     use: [{ loader: "@svgr/webpack", options: { icon: true } }],
   };
 
-  return [assetLoader, cssLoader, babelLoader, svgrLoader];
+  return [assetLoader, cssLoader, babelLoader, svgrLoader, fontLoader];
 }
