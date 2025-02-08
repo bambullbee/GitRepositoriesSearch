@@ -118,6 +118,21 @@ body {
   text-align: center;
 }
 
+/* LOADING BLOCK */
+
+.state-block {
+  font-size: 1.3rem;
+  text-align: center;
+  padding: 20px;
+  margin: 10px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.state-block__inactive {
+  display: none;
+}
+
 /* MEDIAQUERIES */
 
 @media (min-width: 600px) {
@@ -143,10 +158,10 @@ body {
 
 /* Hide ScrollBar */
 
-*::-webkit-scrollbar {
+/* *::-webkit-scrollbar {
   display: none;
 }
 * {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
+} */

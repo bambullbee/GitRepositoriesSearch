@@ -6,4 +6,6 @@ interface repository {
   id: number;
 }
 
-export { repository };
+type loadingState = "idle" | "loading" | "error";
+
+export { repository, loadingState };

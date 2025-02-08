@@ -1,10 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createAsyncThunkTs, type repository } from "@/shared";
+import { createAsyncThunkTs, loadingState, type repository } from "@/shared";
 
 interface initialStateI {
   repositories: repository[];
   page: number;
   author: string;
+  state: {
+    type: loadingState;
+    errorType: number;
+  };
 }
 
 interface fetchedRepository extends repository {
@@ -35,22 +39,25 @@ export const fetchRepositories = createAsyncThunkTs(
         }&per_page=20&page=${
           searchInfo.isNewPage ? currentPage + 1 : currentPage
         }`
-      );
+      )
+        .then((res) => res)
+        .catch(() => {
+          throw new Error("Error catched!");
+        });
     } catch (error) {
-      return rejectWithValue(
-        ""
-        //    error has to be checked
-      );
+      return rejectWithValue(0);
     }
-    if (!response.ok) {
-      //    error has to be checked
-      return rejectWithValue("");
+    try {
+      if (!response.ok) {
+        throw new Error(response.status.toString());
+      }
+    } catch (error) {
+      return rejectWithValue(parseInt(error.message));
     }
     if (searchInfo.isNewPage) {
       dispatch({ type: "search/oneMorePage" });
     }
     const data = await response.json();
-    console.log(data);
     const processedData = data.items.map((el: fetchedRepository) => {
       return {
         name: el.name,
@@ -72,6 +79,10 @@ const initialState: initialStateI = {
   repositories: [],
   page: 1,
   author: "",
+  state: {
+    type: "idle",
+    errorType: null,
+  },
 };
 
 const searchSlice = createSlice({
@@ -81,11 +92,26 @@ const searchSlice = createSlice({
     oneMorePage: (state) => {
       state.page += 1;
     },
+    resetRepoList: (state) => {
+      state.repositories = [];
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchRepositories.pending, (state, action) => {});
-    builder.addCase(fetchRepositories.rejected, (state, action) => {});
+    builder.addCase(fetchRepositories.pending, (state, action) => {
+      state.state.type = "loading";
+    });
+    builder.addCase(fetchRepositories.rejected, (state, action) => {
+      state.state.type = "error";
+      if (typeof action.payload === "number") {
+        state.state.errorType = action.payload;
+        if (action.payload === 0) {
+          state.repositories = [];
+        }
+      }
+    });
     builder.addCase(fetchRepositories.fulfilled, (state, action) => {
+      state.state.type = "idle";
+      state.state.errorType = null;
       if (action.payload.isNewPage) {
         state.repositories = [...state.repositories, ...action.payload.data];
       } else {
@@ -96,6 +122,6 @@ const searchSlice = createSlice({
   },
 });
 
-export const {} = searchSlice.actions;
+export const { resetRepoList } = searchSlice.actions;
 
 export default searchSlice.reducer;

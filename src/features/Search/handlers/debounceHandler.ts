@@ -1,4 +1,4 @@
-import { fetchRepositories } from "@/app/slices/searchSlice";
+import { fetchRepositories, resetRepoList } from "@/app/slices/searchSlice";
 
 import { store } from "@/app";
 
@@ -17,10 +17,10 @@ export default function debounce() {
       if (previousCall && lastCall - previousCall <= 1000) {
         clearTimeout(lastCallTimer);
       }
-      lastCallTimer = setTimeout(
-        () => store.dispatch(fetchRepositories({ repoName, isNewPage: false })),
-        1000
-      );
+      lastCallTimer = setTimeout(() => {
+        store.dispatch(resetRepoList());
+        store.dispatch(fetchRepositories({ repoName, isNewPage: false }));
+      }, 1000);
     };
   }
   return closureDebounce();
