@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import inputOnChange from "./handlers/inputOnChange";
 import debounce from "./handlers/debounceHandler";
 
@@ -27,4 +27,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default memo(Search);

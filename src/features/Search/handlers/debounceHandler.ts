@@ -1,4 +1,4 @@
-import { fetchRepositories, resetRepoList } from "@/app/slices/searchSlice";
+import { fetchRepositories, resetRepoList } from "@/app";
 
 import { store } from "@/app";
 

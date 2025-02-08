@@ -1,8 +1,10 @@
-import React, { memo, useEffect, useRef, useState } from "react";
-import { useDispatchTs, type repository } from "@/shared";
-import { fetchRepositories } from "@/app/slices/searchSlice";
+import React, { memo, useRef, useState } from "react";
+import { type repository } from "@/shared";
+import { fetchRepositories } from "@/app";
 import { store } from "@/app";
 import linkTextCopyFn from "./handlers/linkTextCopyFn";
+import useEffectObserver from "./hooks/useEffectObserver";
+import useEffectCardsAnimation from "./hooks/useEffectCardsAnimation";
 
 const observer = new IntersectionObserver((entries, observer) => {
   if (entries[0].isIntersecting) {
@@ -17,54 +19,19 @@ const observer = new IntersectionObserver((entries, observer) => {
   }
 });
 
-interface repositoryCardI extends repository {
-  className?: string;
-}
-
 const RepositoryCard = ({
   name,
   description,
   link,
   stargazers_count: stars,
   id,
-  className,
-}: repositoryCardI) => {
+}: repository) => {
   const cardHTMLELement = useRef(null);
   const [copyBtnText, setCopyBtnText] = useState("Копировать");
-  const height = useRef(null);
-  useEffect(() => {
-    if (!(cardHTMLELement.current instanceof Element && id % 20 === 0)) {
-      return undefined;
-    }
-    observer.observe(cardHTMLELement.current);
-    return () => {
-      if (!(cardHTMLELement.current instanceof Element && id % 20 === 0)) {
-        return undefined;
-      }
-      observer.unobserve(cardHTMLELement.current as Element);
-    };
-  }, []);
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    if (id <= 20) {
-      height.current = cardHTMLELement.current.offsetTop;
-      cardHTMLELement.current.style.transform = `translateY(-${cardHTMLELement.current.offsetTop}px) scale(0.6)`;
-      timer = setTimeout(() => {
-        cardHTMLELement.current.style.transition = "transform 1s";
-        cardHTMLELement.current.style.transform = `translateY(0px) scale(1)`;
-      }, 100);
-    }
-    return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-    };
-  }, []);
+  useEffectObserver(cardHTMLELement, observer, id);
+  useEffectCardsAnimation(cardHTMLELement, id);
   return (
-    <div
-      className={`repository-card ${className ? className : ""}`}
-      ref={cardHTMLELement}
-    >
+    <div className={`repository-card`} ref={cardHTMLELement}>
       <h3 className="heading heading__repo-subheading">{name}</h3>
       <p className="repository-card__description">{description}</p>
       <div className="link-block">

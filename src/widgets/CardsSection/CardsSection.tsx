@@ -1,6 +1,6 @@
 import { RepositoryCard } from "@/entities/RepositoryCard";
 import { useSelectorTs } from "@/shared";
-import React, { useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import LoadingState from "./components/LoadingState";
 import SuccessfullState from "./components/SuccessfullState";
 
@@ -32,4 +32,4 @@ const CardsSection = () => {
   );
 };
 
-export default CardsSection;
+export default memo(CardsSection);
