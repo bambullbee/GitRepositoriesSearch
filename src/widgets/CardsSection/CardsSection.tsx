@@ -20,6 +20,7 @@ const CardsSection = () => {
               stargazers_count={el.stargazers_count}
               id={ind + 1}
               key={el.id}
+              date={el.date}
             />
           </>
         );

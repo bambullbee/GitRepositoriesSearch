@@ -1,7 +1,9 @@
 import { createAsyncThunkTs, repository } from "@/shared";
+import formatDate from "./formatDate";
 
 interface fetchedRepository extends repository {
   html_url: string;
+  updated_at: string;
 }
 
 interface searchInfoI {
@@ -58,6 +60,7 @@ export const fetchRepositories = createAsyncThunkTs(
         link: el.html_url,
         stargazers_count: el.stargazers_count,
         id: el.id,
+        date: formatDate(el.updated_at),
       };
     });
     return {

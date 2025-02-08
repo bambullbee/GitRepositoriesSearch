@@ -25,6 +25,7 @@ const RepositoryCard = ({
   link,
   stargazers_count: stars,
   id,
+  date,
 }: repository) => {
   const cardHTMLELement = useRef(null);
   const [copyBtnText, setCopyBtnText] = useState("Копировать");
@@ -70,6 +71,7 @@ const RepositoryCard = ({
         </div>
       </div>
       <div className="repository-card__stars">Количество звезд: {stars}</div>
+      <div className="repository-card__date">Последнее обновление {date}</div>
     </div>
   );
 };
