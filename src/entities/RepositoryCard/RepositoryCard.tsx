@@ -1,13 +1,12 @@
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { useDispatchTs, type repository } from "@/shared";
 import { fetchRepositories } from "@/app/slices/searchSlice";
 import { store } from "@/app";
+import linkTextCopyFn from "./handlers/linkTextCopyFn";
 
 const observer = new IntersectionObserver((entries, observer) => {
   if (entries[0].isIntersecting) {
-    console.log(entries);
     const storeCopy = store.getState();
-    console.log("observer", storeCopy.search.author);
     store.dispatch(
       fetchRepositories({
         repoName: storeCopy.search.author,
@@ -26,6 +25,7 @@ const RepositoryCard = ({
   id,
 }: repository) => {
   const cardHTMLELement = useRef(null);
+  const [copyBtnText, setCopyBtnText] = useState("Копировать");
   useEffect(() => {
     if (!(cardHTMLELement.current instanceof Element)) {
       return undefined;
@@ -43,12 +43,39 @@ const RepositoryCard = ({
       className="repository-card"
       ref={id % 20 === 0 ? cardHTMLELement : null}
     >
-      <p>Название репозитория: {name}</p>
-      <p>Описание: {description}</p>
-      <div>
-        Ссылка: <a href={link}>Найденый репозиторий</a>
+      <h3 className="heading heading__repo-subheading">{name}</h3>
+      <p className="repository-card__description">{description}</p>
+      <div className="link-block">
+        <h3 className="heading heading__repo-subheading">Ссылка:</h3>
+        <div className="link-block__buttons">
+          <button
+            className="link-block__button font-sett"
+            onClick={(e) => {
+              linkTextCopyFn(e, link, setCopyBtnText);
+            }}
+          >
+            Копировать
+            <div
+              className={`link-block__button__replace ${
+                copyBtnText === "Готово!"
+                  ? "link-block__button__replace-active"
+                  : ""
+              }`}
+              aria-hidden="true"
+            >
+              Готово!
+            </div>
+          </button>
+          <a
+            className="link-block__button font-sett"
+            href={link}
+            target="_blank"
+          >
+            Перейти
+          </a>
+        </div>
       </div>
-      <div>Количество звезд: {stars}</div>
+      <div className="repository-card__stars">Количество звезд: {stars}</div>
     </div>
   );
 };

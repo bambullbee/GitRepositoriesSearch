@@ -10,10 +10,8 @@ const App = () => {
   );
   return (
     <>
-      <div>
-        <Search />
-        <CardsSection />
-      </div>
+      <Search />
+      <CardsSection />
     </>
   );
 };

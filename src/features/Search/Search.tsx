@@ -6,18 +6,24 @@ const Search = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const debounceFetch = useCallback(debounce(), []);
   return (
-    <div>
+    <header>
+      <h1 className="heading heading__main-heading">
+        Поиск публичных GitHub Репозиториев
+      </h1>
       <form action="#">
         <input
+          className="search-input font-sett"
+          aria-description="Поиск по никнейму автора репозиториев GitHub"
           type="text"
           value={inputValue}
           onChange={(e) => {
             inputOnChange(e, setInputValue);
             debounceFetch(e.target.value);
           }}
+          placeholder="Введите GitHub никнейм"
         />
       </form>
-    </div>
+    </header>
   );
 };
 

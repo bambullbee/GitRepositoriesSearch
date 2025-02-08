@@ -7,9 +7,8 @@ interface initialStateI {
   author: string;
 }
 
-interface fetchData {
-  data: repository[];
-  author: string;
+interface fetchedRepository extends repository {
+  html_url: string;
 }
 
 interface searchInfoI {
@@ -20,7 +19,6 @@ interface searchInfoI {
 export const fetchRepositories = createAsyncThunkTs(
   "search/fetcRepositories",
   async (searchInfo: searchInfoI, { rejectWithValue, getState, dispatch }) => {
-    console.log(searchInfo, "searchInfo");
     const currentPage = getState().search.page;
     if (searchInfo.repoName === "") {
       return {
@@ -39,7 +37,6 @@ export const fetchRepositories = createAsyncThunkTs(
         }`
       );
     } catch (error) {
-      console.log("error");
       return rejectWithValue(
         ""
         //    error has to be checked
@@ -53,11 +50,12 @@ export const fetchRepositories = createAsyncThunkTs(
       dispatch({ type: "search/oneMorePage" });
     }
     const data = await response.json();
-    const processedData = data.items.map((el: repository) => {
+    console.log(data);
+    const processedData = data.items.map((el: fetchedRepository) => {
       return {
         name: el.name,
         description: el.description,
-        link: el.link,
+        link: el.html_url,
         stargazers_count: el.stargazers_count,
         id: el.id,
       };
@@ -88,7 +86,6 @@ const searchSlice = createSlice({
     builder.addCase(fetchRepositories.pending, (state, action) => {});
     builder.addCase(fetchRepositories.rejected, (state, action) => {});
     builder.addCase(fetchRepositories.fulfilled, (state, action) => {
-      console.log(action.payload);
       if (action.payload.isNewPage) {
         state.repositories = [...state.repositories, ...action.payload.data];
       } else {
