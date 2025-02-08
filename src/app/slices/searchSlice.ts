@@ -41,7 +41,6 @@ export const fetchRepositories = createAsyncThunkTs(
         }`
       )
         .then((res) => {
-          console.dir(res.headers.get("X-RateLimit-Remaining"));
           return res;
         })
         .catch(() => {
@@ -72,7 +71,6 @@ export const fetchRepositories = createAsyncThunkTs(
         id: el.id,
       };
     });
-    console.log(data, currentPage);
     return {
       data: processedData,
       author: data.items[0]?.owner.login,
