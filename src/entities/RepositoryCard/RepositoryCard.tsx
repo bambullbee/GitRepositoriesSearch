@@ -31,7 +31,12 @@ const RepositoryCard = ({
   useEffectObserver(cardHTMLELement, observer, id);
   useEffectCardsAnimation(cardHTMLELement, id);
   return (
-    <div className={`repository-card`} ref={cardHTMLELement}>
+    <div
+      className={`repository-card`}
+      ref={cardHTMLELement}
+      tabIndex={id + 1}
+      aria-description={`Карточка репозитория номер ${id}`}
+    >
       <h3 className="heading heading__repo-subheading">{name}</h3>
       <p className="repository-card__description">{description}</p>
       <div className="link-block">

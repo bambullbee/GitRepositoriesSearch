@@ -65,10 +65,12 @@ body {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   outline: none;
+  transition: border-color 0.2s;
 }
 
 .search-input::placeholder {
   color: var(--primary-color);
+  transition: color 0.2s;
 }
 
 /* MAIN */
@@ -321,5 +323,23 @@ main {
 @media (min-width: 1200px) {
   :root {
     font-size: 1.8rem;
+  }
+}
+
+@media (hover: hover) {
+  .search-input:hover {
+    border-color: var(--third-color);
+    color: var(--third-color);
+  }
+  .search-input:hover::placeholder {
+    color: var(--third-color);
+  }
+  .link-block__button:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+  .link-block__button__replace-active:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
   }
 }

@@ -21,6 +21,8 @@ const Search = () => {
             debounceFetch(e.target.value);
           }}
           placeholder="Введите GitHub никнейм"
+          autoFocus
+          tabIndex={1}
         />
       </form>
     </header>

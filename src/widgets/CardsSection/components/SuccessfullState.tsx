@@ -2,7 +2,7 @@ import { memo } from "react";
 
 const SuccessfullState = () => {
   return (
-    <div className="state-block__successfull__wrapper">
+    <div className="state-block__successfull__wrapper" aria-hidden="true">
       {" "}
       <div className="state-block__successfull" id="folder">
         <div className="state-block__successfull__inner">
