@@ -13,7 +13,7 @@ const LoadingState = ({ state, errorType }: loadingStateI) => {
       case "loading":
         return <div className="state-block__loading">Загрузка...</div>;
       case "idle":
-        return <div className=""></div>;
+        return <></>;
       case "error":
         return (
           <div className="state-block__error">

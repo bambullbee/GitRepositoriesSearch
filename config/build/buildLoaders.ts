@@ -41,7 +41,18 @@ export function buildLoaders(options: BuildOptions): ModuleOptions["rules"] {
     use: [
       isDev ? "style-loader" : MiniCssExtractPlugin.loader,
       "css-loader",
-      "postcss-loader",
+      {
+        loader: "postcss-loader",
+        options: {
+          postcssOptions: {
+            plugins: [
+              require("autoprefixer")({
+                overrideBrowserslist: ["> 1%", "last 2 versions"],
+              }),
+            ],
+          },
+        },
+      },
     ],
   };
 
